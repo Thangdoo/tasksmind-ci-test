@@ -21,7 +21,7 @@ function normalizeConfidence(rawScore) {
     return 0;
   }
   const clamped = Math.max(0, rawScore);
-  return Math.min(clamped, 0.95);
+  return Math.min(clamped, 1.0);
 }
 
 module.exports = { normalizeConfidence };
