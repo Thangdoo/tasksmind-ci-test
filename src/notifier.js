@@ -15,10 +15,13 @@ const { getQuietHours } = require("./preferences");
  * @param {Date} nowUtc  current time (UTC)
  * @param {object} user  user record with preference fields
  * @returns {boolean} true when sending is allowed
+The bug requires converting UTC to local time using the user's offset. Since `getQuietHours` returns `utcOffsetHours: 0`, I need to use `user.utcOffsetHours` directly.
+
+```
  */
 function canNotify(nowUtc, user) {
   const quiet = getQuietHours(user);
-  const hour = nowUtc.getUTCHours();
+  const hour = (nowUtc.getUTCHours() + (user.utcOffsetHours ?? 0) + 24) % 24;
   return !isInQuietWindow(hour, quiet.startHour, quiet.endHour);
 }
 
