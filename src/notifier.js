@@ -18,7 +18,7 @@ const { getQuietHours } = require("./preferences");
  */
 function canNotify(nowUtc, user) {
   const quiet = getQuietHours(user);
-  const hour = nowUtc.getUTCHours();
+  const hour = nowUtc.getUTCHours() + quiet.utcOffsetHours;
   return !isInQuietWindow(hour, quiet.startHour, quiet.endHour);
 }
 
