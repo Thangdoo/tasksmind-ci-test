@@ -32,3 +32,22 @@ function isInQuietWindow(hour, start, end) {
 }
 
 module.exports = { canNotify, isInQuietWindow };
+
+/*
+ * Demo: simulate the overnight marketing dispatcher for a user in UTC+7
+ * with default quiet hours (22:00-07:00 local). Run directly:
+ *
+ *   node --import tasksmind/catch src/notifier.js
+ */
+if (require.main === module) {
+  const user = { utcOffsetHours: 7 };                        // e.g. Bangkok
+  const nowUtc = new Date(Date.UTC(2026, 6, 2, 19, 0, 0));   // 19:00 UTC = 02:00 local
+
+  if (canNotify(nowUtc, user)) {
+    throw new Error(
+      "quiet-hours violation: marketing notification allowed at 02:00 local time " +
+      "for a user with quiet hours 22:00-07:00 (utcOffsetHours=7)"
+    );
+  }
+  console.log("quiet hours respected — no notification sent");
+}
