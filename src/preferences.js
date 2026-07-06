@@ -22,7 +22,7 @@ function getQuietHours(user) {
   return {
     startHour: user.quietStart ?? DEFAULT_QUIET_START,
     endHour: user.quietEnd ?? DEFAULT_QUIET_END,
-    utcOffsetHours: 0,
+    utcOffsetHours: user.utcOffsetHours ?? 0,
   };
 }
 
